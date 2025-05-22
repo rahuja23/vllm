@@ -64,6 +64,7 @@ class PlatformEnum(enum.Enum):
     CPU = enum.auto()
     NEURON = enum.auto()
     OOT = enum.auto()
+    METAL = enum.auto()
     UNSPECIFIED = enum.auto()
 
 

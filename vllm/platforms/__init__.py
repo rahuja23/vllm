@@ -199,6 +199,21 @@ def neuron_platform_plugin() -> Optional[str]:
     return "vllm.platforms.neuron.NeuronPlatform" if is_neuron else None
 
 
+def metal_platform_plugin() -> Optional[str]:
+    is_metal = False
+    logger.debug("Checking if Metal platform is available.")
+    try:
+        import torch
+        is_metal = torch.backends.mps.is_available()
+        if is_metal:
+            logger.debug("Confirmed Metal platform is available.")
+    except Exception as e:
+        logger.debug("Metal platform is not available because: %s", str(e))
+        pass
+
+    return "vllm.platforms.metal.MetalPlatform" if is_metal else None
+
+
 builtin_platform_plugins = {
     'tpu': tpu_platform_plugin,
     'cuda': cuda_platform_plugin,
@@ -207,6 +222,7 @@ builtin_platform_plugins = {
     'xpu': xpu_platform_plugin,
     'cpu': cpu_platform_plugin,
     'neuron': neuron_platform_plugin,
+    'metal': metal_platform_plugin,
 }
 
 
